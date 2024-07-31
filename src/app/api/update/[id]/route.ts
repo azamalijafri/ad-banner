@@ -7,8 +7,6 @@ const dataFilePath = isDevelopment
   ? path.join(process.cwd(), "data.json")
   : "/../../../../../tmp/data.json";
 
-console.log(process.cwd());
-
 export async function POST(
   req: Request,
   { params }: { params: { id: string } }
@@ -24,6 +22,8 @@ export async function POST(
         ? { ...item, title, description, action, image, template }
         : item
     );
+
+    console.log(process.cwd());
 
     fs.writeFileSync(dataFilePath, JSON.stringify(updatedData, null, 2));
 
