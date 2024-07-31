@@ -1,5 +1,5 @@
 import { Banner } from "@/components/banner";
-import banners from "@/data.json";
+import banners from "../../data.json";
 
 export default function Home() {
   return (

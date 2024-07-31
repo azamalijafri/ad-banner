@@ -2,7 +2,10 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const dataFilePath = path.join(process.cwd(), "/src/data.json");
+const isDevelopment = process.env.NODE_ENV === "development";
+const dataFilePath = isDevelopment
+  ? path.join(process.cwd(), "data.json")
+  : path.join("/tmp", "data.json");
 
 export async function POST(
   req: Request,
