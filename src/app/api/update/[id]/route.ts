@@ -5,7 +5,9 @@ import path from "path";
 const isDevelopment = process.env.NODE_ENV === "development";
 const dataFilePath = isDevelopment
   ? path.join(process.cwd(), "data.json")
-  : "/tmp/data.json";
+  : "/../../../../../tmp/data.json";
+
+console.log(process.cwd());
 
 export async function POST(
   req: Request,
