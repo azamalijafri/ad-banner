@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
-const isDevelopment = process.env.NODE_ENV === "development";
-const dataFilePath = isDevelopment
-  ? path.join(process.cwd(), "data.json")
-  : "/../../../../../tmp/data.json";
+const dataFilePath = path.join(process.cwd(), "data.json");
 
 export async function POST(
   req: Request,
@@ -15,6 +12,13 @@ export async function POST(
     const { id } = params;
     const { title, description, action, image, template } = await req.json();
 
+    console.log(`Current working directory: ${process.cwd()}`);
+    console.log(`Data file path: ${dataFilePath}`);
+
+    if (!fs.existsSync(dataFilePath)) {
+      throw new Error("Data file does not exist.");
+    }
+
     const data = JSON.parse(fs.readFileSync(dataFilePath, "utf-8"));
 
     const updatedData = data.map((item: any) =>
@@ -22,8 +26,6 @@ export async function POST(
         ? { ...item, title, description, action, image, template }
         : item
     );
-
-    console.log(process.cwd());
 
     fs.writeFileSync(dataFilePath, JSON.stringify(updatedData, null, 2));
 

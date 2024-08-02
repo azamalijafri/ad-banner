@@ -5,6 +5,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import Image from "next/image";
 import { Button } from "./ui/button";
+import { useBanner } from "@/bannerContext";
 
 interface EditBannerProps {
   bannerId: number;
@@ -38,6 +39,7 @@ export const EditBanner = ({
   template,
 }: EditBannerProps) => {
   const [images, setImages] = useState<string[]>([]);
+  const { updateBanner } = useBanner();
 
   useEffect(() => {
     const fetchImages = async () => {
@@ -59,30 +61,33 @@ export const EditBanner = ({
   };
 
   const handleSave = async () => {
-    try {
-      const response = await fetch(`/api/update/${bannerId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          title,
-          description,
-          action,
-          image,
-          template,
-        }),
-      });
+    // try {
+    //   const response = await fetch(`/api/update/${bannerId}`, {
+    //     method: "POST",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       title,
+    //       description,
+    //       action,
+    //       image,
+    //       template,
+    //     }),
+    //   });
 
-      if (response.ok) {
-        onclose();
-      } else {
-        alert("Failed to update banner.");
-      }
-    } catch (error) {
-      console.error("Error saving banner:", error);
-      alert("Error saving banner.");
-    }
+    //   if (response.ok) {
+    //     onclose();
+    //   } else {
+    //     alert("Failed to update banner.");
+    //   }
+    // } catch (error) {
+    //   console.error("Error saving banner:", error);
+    //   alert("Error saving banner.");
+    // }
+
+    updateBanner(bannerId, { title, description, action, image, template });
+    onclose();
   };
 
   return (
